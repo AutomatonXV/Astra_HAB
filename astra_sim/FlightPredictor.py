@@ -17,13 +17,15 @@ if __name__ == "__main__":
     #ENVIRO PARAMS    
     outputFile = os.path.join('.','astra_sim','astra_output')
     Latitude = 45.962139
-    Longitude = -74.173139
+    Longitude =-74.173139
     Elevation = 300
     launch_datetime = datetime.now() + timedelta(days=1)
 
     #LAUNCH PARAMS
     SimNo = 10
 
+    #Post
+    Post = Processor(SimNo, Latitude, Longitude, Elevation)
 
     np.random.seed(62)
     
@@ -52,6 +54,8 @@ if __name__ == "__main__":
     # simFlight.maxFlightTime = 5*60*60
 
     # Run the simulation
-    simFlight.run()
+    #simFlight.run()
     print("FINALIZED FLIGHT PREDICTION")
-    Processor.drawAltimeter()
+    Post.drawTrajectory2D()
+    Post.drawTrajectory3D()
+    Post.drawAltimeter()
