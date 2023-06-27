@@ -11,12 +11,13 @@ import matplotlib.pyplot as plt
 import PlotAssist, EZColors
 
 class Processor:
-    def __init__(self, SimulationNo,Lat,Long,Elev):
+    def __init__(self, SimulationNo,Lat,Long,Elev, TermAlt = None):
         self.SimNo = SimulationNo
         #zero ref
         self.Latitude = Lat
         self.Longitude = Long
         self.Elevation = Elev
+        self.TermAlt = TermAlt
         #dict of runs
         #   the structure is
         #   {
@@ -24,6 +25,9 @@ class Processor:
         # }
         self.Runs = {}
         
+    def getData(self,):
+        self.__tabulateCSV()
+        return self.Runs
 
     def drawTrajectory2D(self,):
         self.__tabulateCSV()
@@ -47,7 +51,7 @@ class Processor:
             HPlot.SetLim(Left = 0, Right = 35, Top = 35, Bottom = 0.0)
             #HPlot.SetTicks('Y',1,11,1)
             HPlot.Plot((x-x0, y-y0), Color = Clr)
-
+            
         HPlot.Finalize()
         HPlot.Show()
         pass
@@ -68,16 +72,36 @@ class Processor:
 
             x = R * np.cos(lat) * np.cos(long)  ;   x0 = R * np.cos(lat0) * np.cos(long0)
             y = R * np.cos(lat) * np.sin(long)  ;   y0 = R * np.cos(lat0) * np.sin(long0) 
-            z = R * np.sin(lat)
+            z = R * np.sin(lat) #dont use
 
             Clr = EZColors.CustomColors(colorLabel = 'red')
             Clr.HueShift(Val = i*5)
             
-            HPlot.SetLim(Left = 0.0, Right = 35, Top = 35, Bottom = 0, Front = 15000, Back = 0.0)
+            HPlot.SetLim(Left = 0.0, Right = 100, Top = 100, Bottom = 0, Front = 20, Back = 0.0)
             HPlot.AxLabels(X = "Distance (km)", Y = "Distance (km)", Z = "Elevation (km)")
 
             HPlot.Plot3D((x-x0,y-y0,self.Runs[i]['Elevation']/1000), Color = Clr)
+            if not self.TermAlt: continue
 
+            ClrT = EZColors.CustomColors(colorLabel = 'blue')
+            closestzT = 10000000
+            xT,yT = x[0],y[0]
+            closeind = 0
+            for zT in self.Runs[i]['Elevation']:
+                ind = np.where(self.Runs[i]['Elevation'] == zT)
+                index = ind[0][0]
+                #print(index, index[0][0], type(index))
+                #print(index, "\t", zT, self.Runs[i]['Elevation'][index+1],"\t", self.TermAlt, np.abs(zT-self.TermAlt), closestzT)
+                if zT > self.Runs[i]['Elevation'][index+1]: break
+                if np.abs(zT-self.TermAlt) < np.abs(closestzT-self.TermAlt):
+                    closestzT = zT
+                    xT,yT = x[index],y[index]
+                    closeind = index
+                
+            print("Endpoint position is at \t", xT-x0, yT-y0, zT)
+            #following in radians
+            #print("ENDPOINT COORD",long0 +  np.deg2rad(self.Runs[i]['Longitude'][closeind]), lat0 + np.deg2rad(self.Runs[i]['Latitude'][closeind]),  self.Runs[i]['Elevation'][closeind])
+            HPlot.Plot3D((xT-x0, yT-y0, closestzT/1000), Color = ClrT, Marker = "x", MarkerSize=1, ScatterMode = True)
         HPlot.Finalize()
         HPlot.Show()
         
@@ -92,7 +116,7 @@ class Processor:
             Clr.HueShift(Val = i*5)
             HPlot.AxLabels(X = "Time (s)", Y = "Elevation (m)")
             #HPlot.SetTicks('Y',0.0,1,0.2)
-            HPlot.SetLim(Left = 0.0, Right = 2500, Top = 20000, Bottom = 0.0)
+            HPlot.SetLim(Left = 0.0, Right = 2*3600, Top = 20000, Bottom = 0.0)
             #HPlot.SetTicks('Y',1,11,1)
             HPlot.Plot((self.Runs[i]['Time'], self.Runs[i]['Elevation']), Color = Clr)
 

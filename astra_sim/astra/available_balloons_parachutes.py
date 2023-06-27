@@ -62,6 +62,7 @@ Weibull lambda, Weibull k)
 meanToNominalBurstRatio = 1.08116
 
 parachutes = {
+    "IntStar": 0.567,
     "RCK3": 0.26615,
     "RCK4": 0.47315,
     "RCK5": 0.73930,

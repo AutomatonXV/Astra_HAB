@@ -84,19 +84,22 @@ class HigsPlot:
     def Mode3D(self, ):
         self.plt.axis('off')
         fig = plt.figure() 
-        ax = fig.add_subplot(111,projection='3d') 
+        self.ax = fig.add_subplot(111,projection='3d') 
         #ax = self.plt.axes(projection = '3d')
         #self.ax = ax
         
 
-    def Plot3D(self, XYZ, Label = "", LineWidth = 1.5, Color = None, LineStyle = '-', Marker = 'None', MarkerSize = 1.5):
+    def Plot3D(self, XYZ, Label = "", LineWidth = 1.5, Color = None, LineStyle = '-', Marker = 'None', MarkerSize = 1.5, ScatterMode = False):
         if not Color: raise ValueError("Missing EZColor 'Color' property.")   #Color is a EZColor object
         
         self.Projected3D = True
         X,Y,Z = XYZ
         #ax = self.plt.axes(projection = '3d')
         self.ax
-        plt.plot(X,Y,Z, color = Color.RGB)
+        if not ScatterMode:
+            plt.plot(X,Y,Z, color = Color.RGB)
+        else:
+            self.ax.scatter(X,Y,Z,marker = 'x', s = 100)
         #self.ax = ax
 
     def Scatter(self, XY, Label = "", Color = None, Marker = 'None', MarkerSize = 1.5):
