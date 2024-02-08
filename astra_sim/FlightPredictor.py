@@ -46,19 +46,20 @@ if __name__ == "__main__":
     #park duquette
     #45.84896333976364, -73.98573911636356
 
-    #parc breen
+    #Southern launch
+    #45.29379729119799, -73.11108997929406
 
-    MASS_Balloon = 0.35 #kg 0.2 was prev config
-    MASS_Payload = 1.2 #kg 0.582 was prev config
+    MASS_Balloon = 1.6 #kg 0.2 was prev config
+    MASS_Payload = 1.1 #kg 0.582 was prev config
     MASS_tot = MASS_Balloon + MASS_Payload
 
-    Latitude = 45.99097
-    Longitude = -74.11714
-    Elevation = 274
+    Latitude = 45.93533802350258
+    Longitude = -74.30828624
+    Elevation = 500
     TerminateAlt = None #in meters, otherwise set to None
     #launch_datetime = datetime.now() + timedelta(days=0, hours =0)
                                 #year/month/day/hour (hour is +4h )
-    launch_datetime = datetime(2023,5,23,23)
+    launch_datetime = datetime(2023,11,12,22)
 
     #LAUNCH PARAMS
     SimNo = 10
@@ -78,8 +79,8 @@ if __name__ == "__main__":
     # Launch setup
     simFlight = flight(environment=simEnvironment,
                        balloonGasType='Helium',
-                       balloonModel='TA350',
-                       nozzleLift=2,                                # kg USE NOZZLELIFT.PY CODE
+                       balloonModel='HW1600',#'TA350',
+                       nozzleLift= 3.5,#2,                                # kg USE NOZZLELIFT.PY CODE
                        payloadTrainWeight=MASS_tot,                    # kg, THIS IS TOTAL PAYLOAD + BALLOON (i.e 0.558+0.2 kg)
                        parachuteModel='IntStar',
                        numberOfSimRuns=SimNo,

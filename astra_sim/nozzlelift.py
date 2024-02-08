@@ -2,11 +2,12 @@
 import numpy as np 
 
 tol = 0.001                               #Tolerance for iterative guess
-v = 3 #m/s              ASCENT RATE, SWEEP
+v = 5#3 #m/s              ASCENT RATE, SWEEP
 m_p = 1.1 #kg                         PAYLOAD MASS
-m_b = 0.35 #kg                           BALLOON MASS
-Vtank = 0.961/35.315 #m3  (from 0.961ft3)       TANK VOLUME, PRAXAIR, S cylinder
-
+m_b = 0.6#0.35 #kg                           BALLOON MASS
+WaterWeight = 44 #kg                    WATER WEIGHT OF K TANK TANK, FROM LINDE
+WaterDensity= 997 #kg/m3
+Vtank = WaterWeight/WaterDensity #m3     TANK VOLUME,  K cylinder (k type is 1.65ft3, S is 0.97ft3)
 Patm = 14.6959 #psi
 
 def AscEq(R, m_p,m_b, g0 = 9.81, Cd = 0.5, rho_Air = 1.205, rho_He = 0.1786):

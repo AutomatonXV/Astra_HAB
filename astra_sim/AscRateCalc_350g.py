@@ -6,7 +6,7 @@ import PlotAssist, EZColors
 #pip install matplotlib-label-lines
 
 tol = 0.001                               #Tolerance for iterative guess
-m_p = np.array([.25,.5,.75,1,1.25])#np.array([0.588, .844])#np.arange(0.5,0.8,.05)#np.array([0.582]) #kg             PAYLOAD MASS
+m_p = np.array([.25,.5,.75,1,1.3])#np.array([0.588, .844])#np.arange(0.5,0.8,.05)#np.array([0.582]) #kg             PAYLOAD MASS
 v = np.arange(0,7,.25) #m/s              ASCENT RATE, SWEEP
 m_b = 0.35 #kg                           BALLOON MASS
 Vtank = 0.961/35.315 #m3  (from 0.961ft3)       TANK VOLUME, PRAXAIR, S cylinder
